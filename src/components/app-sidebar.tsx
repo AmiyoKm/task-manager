@@ -50,27 +50,27 @@ const data = {
   DashboardOverview: [
     {
       name: "My tasks",
-      url: "#",
+      url: "/my-tasks",
       icon: FaTasks,
     },
     {
       name: "Projects",
-      url: "#",
+      url: "/projects",
       icon: GoProjectRoadmap,
     },
     {
       name: "Calender",
-      url: "#",
+      url: "/calender",
       icon: SlCalender,
     },
     {
       name: "Profile",
-      url: "#",
+      url: "/profile",
       icon: FaUser,
     },
     {
       name: "Settings",
-      url: "#",
+      url: "/settings",
       icon: IoMdSettings,
     },
   ],
