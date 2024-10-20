@@ -2,7 +2,7 @@ import React from 'react'
 export const GlobalContext = React.createContext({})
 
 export interface Task {
-  id?: number;
+  id: number;
   title: string;
   dueDate: any;
   priority: string;

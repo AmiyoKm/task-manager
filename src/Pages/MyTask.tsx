@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GlobalContext, Task } from "@/context/GlobalContext";
-import CalendarForm from "@/components/DueDateSelect";
+import { GlobalContext } from "@/context/GlobalContext";
+
 import {
   Form,
   FormControl,
@@ -16,6 +16,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
+
+import { Label } from "@/components/ui/label";
+
+
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -35,19 +41,25 @@ const MyTask = () => {
       dueDate: new Date(),
     },
   });
-  const [newTask, setNewTask] = React.useState<Task>({
-    title: "",
-    dueDate: "",
-    priority: "low",
-    status: "pending",
-  });
+  
   function onSubmit(values: z.infer<typeof formSchema>) {
-    setNewTask( property =>({...property, title:values.title, dueDate:values.dueDate}));
-    setTasks([...tasks, newTask]);
+      if(!values){
+        return
+      }
+      const task = {
+        id: tasks.length + 1,
+        title: values.title,
+        dueDate: values.dueDate,
+        priority: "Medium",
+        status: "Pending"
+      }
+      setTasks([...tasks, task])
+    
     console.log(tasks);
   }
   return (
-    <div>
+    <div className="flex h-screen w-full items-center justify-center ">
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -64,6 +76,11 @@ const MyTask = () => {
               </FormItem>
             )}
           />
+          <DropdownMenu>
+          <DropdownMenuTrigger>
+          Select a Due Date
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
           <FormField
             control={form.control}
             name="dueDate"
@@ -84,6 +101,9 @@ const MyTask = () => {
               </FormItem>
             )}
           />
+          </DropdownMenuContent>
+          </DropdownMenu>
+          
 
           <Button type="submit">Submit</Button>
         </form>
