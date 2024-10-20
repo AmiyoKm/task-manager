@@ -3,7 +3,7 @@ import {
   Forward,
   MoreHorizontal,
   Trash2,
-  type LucideIcon,
+  
 } from "lucide-react"
 
 import {
@@ -29,14 +29,14 @@ export function NavProjects({
   projects: {
     name: string
     url: string
-    icon: LucideIcon 
+    icon: any
   }[]
 }) {
   const { isMobile } = useSidebar()
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Projects</SidebarGroupLabel>
+      <SidebarGroupLabel>Dashboard Overview</SidebarGroupLabel>
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
