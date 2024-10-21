@@ -10,7 +10,7 @@ createRoot(document.getElementById("root")!).render(
   <GlobalStateContext>
     <BrowserRouter>
       
-        <App children />
+        <App />
       
     </BrowserRouter>
   </GlobalStateContext>
