@@ -8,10 +8,13 @@ import Project from "./Pages/Project";
 import Calender from "./Pages/Calender";
 import Profile from "./Pages/Profile";
 import Settings from "./Pages/Settings";
+import GlobalStateContext from "./context/GlobalContext";
+import { Toaster } from "./components/ui/toaster";
 
 function App({ children }: { children: React.ReactNode }) {
   return (
     <>
+   
       <Routes>
         
         <Route
@@ -31,6 +34,7 @@ function App({ children }: { children: React.ReactNode }) {
                 <SidebarTrigger />
                 {children}
               </main>
+              <Toaster />
             </SidebarProvider>
           }
         />
@@ -39,11 +43,13 @@ function App({ children }: { children: React.ReactNode }) {
           element={
             <SidebarProvider>
               <AppSidebar />
+              <MyTask />
               <main>
                 <SidebarTrigger />
                 {children}
               </main>
-              <MyTask />
+              
+              <Toaster />
             </SidebarProvider>
           }
         />
@@ -56,6 +62,7 @@ function App({ children }: { children: React.ReactNode }) {
                 <SidebarTrigger />
                 {children}
               </main>
+              <Toaster />
               <Project />
             </SidebarProvider>
           }
@@ -70,6 +77,7 @@ function App({ children }: { children: React.ReactNode }) {
                 {children}
               </main>
               <Calender />
+              <Toaster />
             </SidebarProvider>
           }
         />
@@ -100,6 +108,7 @@ function App({ children }: { children: React.ReactNode }) {
           }
         />
       </Routes>
+     
     </>
   );
 }

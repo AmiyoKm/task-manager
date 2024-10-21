@@ -6,9 +6,10 @@ import { Label } from "@/components/ui/label";
 
 const Project: React.FC = () => {
   const { tasks, removeTask, updateTask } = useContext(GlobalContext);
+  console.log(tasks)
 
   return (
-    <div className="flex flex-col h-screen w-screen p-8">
+    <div className="flex flex-col h-screen w-full p-8">
       <Label className="text-5xl font-extrabold text-center mb-20">Current Tasks</Label>
       
       <div className="flex justify-evenly space-x-10 flex-wrap">

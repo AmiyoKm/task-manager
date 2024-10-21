@@ -5,12 +5,14 @@ import App from "./App.tsx";
 import "./index.css";
 import GlobalStateContext from "./context/GlobalContext.tsx";
 
-createRoot(document.getElementById("root")!).render(
 
+createRoot(document.getElementById("root")!).render(
+  <GlobalStateContext>
     <BrowserRouter>
-      <GlobalStateContext>
+      
         <App children />
-      </GlobalStateContext>
+      
     </BrowserRouter>
+  </GlobalStateContext>
   
 );

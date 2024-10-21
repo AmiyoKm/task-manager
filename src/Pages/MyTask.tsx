@@ -22,6 +22,8 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ToastAction } from "@/components/ui/toast";
+import { toast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -34,7 +36,7 @@ const formSchema = z.object({
 });
 
 const MyTask: React.FC = () => {
-  const { addTask } = useContext(GlobalContext);
+  const {tasks, addTask } = useContext(GlobalContext);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,6 +57,7 @@ const MyTask: React.FC = () => {
     };
     addTask(task);
     form.reset();
+    console.log(tasks);
   }
 
   return (
@@ -103,7 +106,13 @@ const MyTask: React.FC = () => {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button type="submit">Submit</Button>
+          <Button onClick={()=>{
+              toast({
+                title: `Task: ${form.getValues("title")}`,
+                description: `Scheduled: ${form.getValues("dueDate")}`,
+                action: <ToastAction altText="Try again" >View</ToastAction>,
+              })
+          }} type="submit">Submit</Button>
         </form>
       </Form>
     </div>

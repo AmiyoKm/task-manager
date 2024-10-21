@@ -1,9 +1,11 @@
 import { Calendar } from '@/components/ui/calendar'
-import React from 'react'
+import { GlobalContext } from '@/context/GlobalContext'
+import React, { useContext } from 'react'
 
 const Calender = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date())
-
+  const {tasks } = useContext(GlobalContext)
+console.log(tasks)
 return (
   <>
  
