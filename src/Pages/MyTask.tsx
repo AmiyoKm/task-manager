@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,11 +17,11 @@ import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 
-import { Label } from "@/components/ui/label";
-
-
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -32,8 +32,9 @@ const formSchema = z.object({
     invalid_type_error: "Invalid date",
   }),
 });
-const MyTask = () => {
-  const {tasks , setTasks}:any =useContext(GlobalContext)
+
+const MyTask: React.FC = () => {
+  const { addTask } = useContext(GlobalContext);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,25 +42,23 @@ const MyTask = () => {
       dueDate: new Date(),
     },
   });
-  
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-      if(!values){
-        return
-      }
-      const task = {
-        id: tasks.length + 1,
-        title: values.title,
-        dueDate: values.dueDate,
-        priority: "Medium",
-        status: "Pending"
-      }
-      setTasks([...tasks, task])
-    
-    console.log(tasks);
+    if (!values) {
+      return;
+    }
+    const task = {
+      title: values.title,
+      dueDate: values.dueDate,
+      priority: "Medium",
+      status: "Pending",
+    };
+    addTask(task);
+    form.reset();
   }
+
   return (
     <div className="flex h-screen w-full items-center justify-center ">
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -77,39 +76,36 @@ const MyTask = () => {
             )}
           />
           <DropdownMenu>
-          <DropdownMenuTrigger>
-          Select a Due Date
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-          <FormField
-            control={form.control}
-            name="dueDate"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Select a Due Date</FormLabel>
-                <FormControl>
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    initialFocus
-                  />
-                  </FormControl>
-                  <FormDescription>Please select a due date</FormDescription>
-                  <FormMessage />
-                
-              </FormItem>
-            )}
-          />
-          </DropdownMenuContent>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">Select a Due Date</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <FormField
+                control={form.control}
+                name="dueDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Select a Due Date</FormLabel>
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) =>
+                        date < new Date(new Date().setHours(0, 0, 0, 0))
+                      }
+                      initialFocus
+                    />
+                    <FormDescription>Please select a due date</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </DropdownMenuContent>
           </DropdownMenu>
-          
 
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-
-   
     </div>
   );
 };

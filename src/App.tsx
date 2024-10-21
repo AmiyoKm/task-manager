@@ -3,18 +3,25 @@ import "./App.css";
 import { AppSidebar } from "./components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
 import { LoginForm } from "./components/login-form";
-import  MyTask  from "./Pages/MyTask";
+import MyTask from "./Pages/MyTask";
 import Project from "./Pages/Project";
 import Calender from "./Pages/Calender";
 import Profile from "./Pages/Profile";
 import Settings from "./Pages/Settings";
 
-
 function App({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Routes>
-        <Route path="/" element={<div className="h-screen flex items-center justify-center"><LoginForm /></div>} />
+        
+        <Route
+          path="/"
+          element={
+            <div className="h-screen flex items-center justify-center">
+              <LoginForm />
+            </div>
+          }
+        />
         <Route
           path="/Home"
           element={
@@ -36,7 +43,7 @@ function App({ children }: { children: React.ReactNode }) {
                 <SidebarTrigger />
                 {children}
               </main>
-            <MyTask />
+              <MyTask />
             </SidebarProvider>
           }
         />
@@ -49,7 +56,7 @@ function App({ children }: { children: React.ReactNode }) {
                 <SidebarTrigger />
                 {children}
               </main>
-            <Project />
+              <Project />
             </SidebarProvider>
           }
         />
@@ -62,7 +69,7 @@ function App({ children }: { children: React.ReactNode }) {
                 <SidebarTrigger />
                 {children}
               </main>
-            <Calender />
+              <Calender />
             </SidebarProvider>
           }
         />
@@ -75,7 +82,7 @@ function App({ children }: { children: React.ReactNode }) {
                 <SidebarTrigger />
                 {children}
               </main>
-            <Profile/>
+              <Profile />
             </SidebarProvider>
           }
         />
@@ -88,7 +95,7 @@ function App({ children }: { children: React.ReactNode }) {
                 <SidebarTrigger />
                 {children}
               </main>
-            <Settings/>
+              <Settings />
             </SidebarProvider>
           }
         />

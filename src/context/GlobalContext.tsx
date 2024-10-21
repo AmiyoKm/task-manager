@@ -1,35 +1,56 @@
-import React from 'react'
-export const GlobalContext = React.createContext({})
+import React, { createContext, useState, useCallback } from 'react'
 
 export interface Task {
   id: number;
   title: string;
-  dueDate: any;
+  dueDate: string | Date;
   priority: string;
   status: string;
 }
 
+interface GlobalContextType {
+  tasks: Task[];
+  addTask: (task: Omit<Task, 'id'>) => void;
+  updateTask: (id: number, updatedTask: Task) => void;
+  removeTask: (id: number) => void;
+}
 
-const GlobalStateContext = ({children} : {children:React.ReactNode}) => {
+export const GlobalContext = createContext<GlobalContextType>({
+  tasks: [],
+  addTask: () => {},
+  updateTask: () => {},
+  removeTask: () => {},
+});
 
-  const [tasks, setTasks] = React.useState<Task[]>([
-    { id: 1, title: 'Design homepage', dueDate: '2024-10-21', priority: 'High', status: 'In Progress' },
-    { id: 2, title: 'Write blog post', dueDate: '2024-10-22', priority: 'Medium', status: 'Pending' },
-  ]);
-  function addTask(task : Task){
-    setTasks([...tasks, task])
-  }
-  const updateTask = (id: number, updatedTask: Task) => {
+const GlobalStateContext: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  const addTask = useCallback((task: Omit<Task, 'id'>) => {
+    setTasks(prevTasks => [
+      ...prevTasks,
+      {
+        ...task,
+        id: prevTasks.length + 1,
+        dueDate: task.dueDate instanceof Date ? task.dueDate.toISOString().split('T')[0] : task.dueDate
+      }
+    ]);
+  }, []);
+
+  const updateTask = useCallback((id: number, updatedTask: Task) => {
     setTasks(prevTasks =>
       prevTasks.map(task => (task.id === id ? updatedTask : task))
     );
-  };
+  }, []);
+
+  const removeTask = useCallback((id: number) => {
+    setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
+  }, []);
     
   return (
-    <GlobalContext.Provider value={{tasks , addTask, updateTask , setTasks}}>
+    <GlobalContext.Provider value={{ tasks, addTask, updateTask, removeTask }}>
       {children}
     </GlobalContext.Provider>
   )
 }
 
-export default GlobalStateContext
+export default GlobalStateContext;
